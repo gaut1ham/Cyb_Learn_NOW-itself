@@ -127,12 +127,7 @@ FORGIVE FOR ANY MISTAKES < CONTRIBUTE , HAPPY LEARNING < ALWAYS READY FOR ACCEPT
 
 <div align="center">
 Built with ❤️ by @gaut1ham
-Security-Focused Software Engineer
-
-https://img.shields.io/badge/GitHub-gaut1ham-black?style=for-the-badge&logo=github
-https://img.shields.io/badge/Twitter-@gaut1ham-blue?style=for-the-badge&logo=twitter
-https://img.shields.io/badge/LinkedIn-Profile-blue?style=for-the-badge&logo=linkedin
-
+Security-Focused Software Engineer(STUDENT)
 </div>
 
 **💡 Remember: Knowledge is power, but responsibility is key. Use your skills to protect, not harm.**
